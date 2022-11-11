@@ -11,16 +11,14 @@
 <body>
     <h1>あなたの相棒を決定します</h1>
     <h2>動物を選択してください</h2>
-    <form action="/Animal" method="post" enctype="multipart/form-data">
-        <select type="file" accept=".png, .jpg, .jpeg, .webp">
-            <option>犬</option>
-            <option>猫</option>
-            <option>狐</option>
+    <form action="/animal" method="post" enctype="multipart/form-data">
+        <select type="file" name="selectAnimal" accept=".png, .jpg, .jpeg, .webp">
+            <option value="dog">犬</option>
+            <option value="cat">猫</option>
+            <option value="fox">狐</option>
         </select>
         <input type="submit" value="選択する">
-
     </form>
-    <img src="FirstWeekTasks\First-Task-API\images\dog.png" width="600" height="400">
 </body>
 
 </html>
