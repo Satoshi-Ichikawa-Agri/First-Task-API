@@ -17,24 +17,42 @@ app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(32)
 
 
-# GET index
 @app.route("/")
 def index():
+    """GET index"""
     return render_template("index.html")
 
 
-# POST Animal
+# 利用APIをdictに格納
+api_url = {
+    "cat": "https://api.thecatapi.com/v1/images/search",
+    "dog": "https://dog.ceo/api/breeds/image/random",
+    "fox": "https://randomfox.ca/floof",
+}
+
+# HTML select要素のname属性を指定
+select_result = "selectAnimal"
+
+
 @app.route("/animal", methods=["POST"])
 def animal():
-    if request.form["selectAnimal"] == "cat":
-        res = requests.get("https://api.thecatapi.com/v1/images/search")
+    """POST animal
+    index.htmlで選択されたselect要素を受け取り、判定結果でAPIを出しわける
+    """
+    if request.form[select_result] == "cat":
+        # 猫を選んだ
+        res = requests.get(api_url["cat"])
         outfile = json.loads(res.text)[0]["url"]
-    elif request.form["selectAnimal"] == "dog":
-        res = requests.get("https://dog.ceo/api/breeds/image/random")
+    elif request.form[select_result] == "dog":
+        # 犬を選んだ
+        res = requests.get(api_url["dog"])
         outfile = json.loads(res.text)["message"]
-    else:
-        res = requests.get("https://randomfox.ca/floof")
+    elif request.form[select_result] == "fox":
+        # 狐を選んだ
+        res = requests.get(api_url["fox"])
         outfile = json.loads(res.text)["image"]
+    else:
+        return ""
     return render_template("animal.html", outfile=outfile)
 
 
